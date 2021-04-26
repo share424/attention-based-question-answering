@@ -4,7 +4,7 @@ This project used [CoQa](https://github.com/stanfordnlp/coqa-baselines) datasets
 ## Model Pipeline
 This project consist of three module, Question Analysis, Passage Retriever, and Answer Finder
 
-![](https://github.com/share424/attention-based-question-answeringblob/master/images/architechture.png?raw=true)
+![](https://github.com/share424/attention-based-question-answering/blob/master/images/architechture.png?raw=true)
 
 The pipeline will receive two input, the question and the context of the question (e.g. news, article, etc). The question will be feed to the Question analysis and the context will be splitted by sentence and feed to the passage retriever to get the proposed sentence that contains the answer. Finally the answer finder will be receive the question and the proposed sentence as input and generate predicted answer.
 
@@ -44,7 +44,7 @@ print(sorted_arg[:3])
 ## Answer Finder
 This is the main module to generate the answer. This module will receive question and proposed sentence that may contains the answer.
 
-![](https://github.com/share424/attention-based-question-answeringblob/master/images/answer-finder.png?raw=true)
+![](https://github.com/share424/attention-based-question-answering/blob/master/images/answer-finder.png?raw=true)
 
 this module consist of 3 step, Preprocessing, encoder, and decoder
 
@@ -77,14 +77,14 @@ this number will be feed to number decoder to get the correct number for the out
 ### Encoder and Decoder
 This module is responsible to get the context of the question and generate the answer using attention
 
-![](https://github.com/share424/attention-based-question-answeringblob/master/images/encoder-decoder.png?raw=true)
+![](https://github.com/share424/attention-based-question-answering/blob/master/images/encoder-decoder.png?raw=true)
 
 I use [BahdanauAttention](https://arxiv.org/abs/1409.0473) for the attention layer, you can check the paper for the detail implementation. Every generated `<number>` token will be passed to the number decoder to get the correct number. The number decoder will receive the hidden state and the extracted number from the preprocessing step and output the correct number.
 
 Note: You can implement the number decoder mecanism for `NAME`, `LOCATION`, and `ENTITY` as well
 
 ## Example Output
-![](https://github.com/share424/attention-based-question-answeringblob/master/images/result.png?raw=true)
+![](https://github.com/share424/attention-based-question-answering/blob/master/images/result.png?raw=true)
 
 ## Results
 The model get `74.16` for the `BLEU-4` score
