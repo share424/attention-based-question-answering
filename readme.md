@@ -1,12 +1,12 @@
 # Attention Based Question Answering
-This project used [CoQa](https://github.com/stanfordnlp/coqa-baselines) datasets. This dataset is for conversational question answering, but I make this project for just simple question answering.
+This project uses [CoQa](https://github.com/stanfordnlp/coqa-baselines) datasets. This dataset is for conversational question answering, but I make this project just for simple question answering.
 
 ## Model Pipeline
-This project consist of three module, Question Analysis, Passage Retriever, and Answer Finder
+This project consists of three modules, Question Analysis, Passage Retriever, and Answer Finder
 
 ![](https://github.com/share424/attention-based-question-answering/blob/master/images/architechture.png?raw=true)
 
-The pipeline will receive two input, the question and the context of the question (e.g. news, article, etc). The question will be feed to the Question analysis and the context will be splitted by sentence and feed to the passage retriever to get the proposed sentence that contains the answer. Finally the answer finder will be receive the question and the proposed sentence as input and generate predicted answer.
+The pipeline will receive two inputs, the question and the context of the question (e.g. news, article, etc). The question will be feed to the Question analysis and the context will be split by sentence and feed to the passage retriever to get the proposed sentence that contains the answer. Finally, the answer finder will receive the question and the proposed sentence as input and generate a predicted answer.
 
 ## Question Analysis
 The point of the question analysis is to extract information from the question, you can use NER (Named entity recognition) to do this, but in this project I use [SBert](https://www.sbert.net/) to get the embedding of the question.
@@ -23,7 +23,7 @@ print(question_embedding)
 ```
 
 ## Passage Retriever
-The purpose of this module is to propose a sentence from the context texts that contains the answer of the question. This module will receive the embedding of the question and the embedding of every sentence in given context. And finally calculate the cosine similarity to get the proposed sentence. The proposed sentence will be used as input in the answer finder. To get better accuracy, I use top-3 sentence as the input, so we will get 3 best answer
+The purpose of this module is to propose a sentence from the context texts that contain the answer of the question. This module will receive the embedding of the question and the embedding of every sentence in the given context. And finally calculate the cosine similarity to get the proposed sentence. The proposed sentence will be used as input in the answer finder. To get better accuracy, I use the top-3 sentence as the input, so we will get the 3 best answers.
 
 ```python
 # e.g.
@@ -42,7 +42,7 @@ print(sorted_arg[:3])
 ```
 
 ## Answer Finder
-This is the main module to generate the answer. This module will receive question and proposed sentence that may contains the answer.
+This is the main module to generate the answer. This module will receive the question and proposed sentence that may contain the answer.
 
 ![](https://github.com/share424/attention-based-question-answering/blob/master/images/answer-finder.png?raw=true)
 
@@ -61,7 +61,7 @@ print(input_text)
 # output: <start> where did she live? <sep> in a barn near a farm house, there lived a little white kitten <end>
 ```
 
-Every number that contains in the question or proposed sentence will be extracted
+Every number contains in the question or proposed sentence will be extracted
 
 ```python
 text = "there are 5 dogs in the house"
@@ -72,16 +72,16 @@ print(numbers)
 # output: ['5']
 ```
 
-this number will be feed to number decoder to get the correct number for the output
+this number will be feed to the number decoder to get the correct number for the output
 
 ### Encoder and Decoder
 This module is responsible to get the context of the question and generate the answer using attention
 
 ![](https://github.com/share424/attention-based-question-answering/blob/master/images/encoder-decoder.png?raw=true)
 
-I use [BahdanauAttention](https://arxiv.org/abs/1409.0473) for the attention layer, you can check the paper for the detail implementation. Every generated `<number>` token will be passed to the number decoder to get the correct number. The number decoder will receive the hidden state and the extracted number from the preprocessing step and output the correct number.
+I use [BahdanauAttention](https://arxiv.org/abs/1409.0473) for the attention layer, you can check the paper for the detailed implementation. Every generated `<number>` token will be passed to the number decoder to get the correct number. The number decoder will receive the hidden state and the extracted number from the preprocessing step and output the correct number.
 
-Note: You can implement the number decoder mecanism for `NAME`, `LOCATION`, and `ENTITY` as well
+Note: You can implement the number decoder mecanism for `PERSON`, `LOCATION`, and `ORGANIZATION` as well
 
 ## Example Output
 ![](https://github.com/share424/attention-based-question-answering/blob/master/images/result.png?raw=true)
